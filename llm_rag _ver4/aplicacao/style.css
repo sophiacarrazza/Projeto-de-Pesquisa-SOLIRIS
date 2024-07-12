@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+}
+
+.chat-container {
+    background: white;
+    width: 500px;
+    height: 600px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#chatbox {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.user_ruth{
+    display: flex;
+    align-items:flex-start;
+    margin-bottom: 5px;
+}
+.avatar{
+    padding: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.caixa_input{
+    width: 100%;
+    border: none;
+    outline-color: #e8eaec;
+    margin-left: 10px;
+    margin-bottom: 10px;
+
+}
+.message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.bot-message {
+    background: #D9D9D9;
+    align-self: flex-start;
+    max-width: 80%;
+}
+
+.user-message {
+    background: #A4A5A6;
+    align-self: flex-end;
+    max-width: 80%;
+    margin-left: auto;
+}
+
+#userInput {
+    border: none;
+    padding: 10px;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
+}
+
+#sendButton {
+    background: #5C6373;
+    color: white;
+    font-size: medium;
+    border: none;
+    padding: 15px 10px 15px 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
+#sendButton:hover {
+    background: #2C3140;
+}

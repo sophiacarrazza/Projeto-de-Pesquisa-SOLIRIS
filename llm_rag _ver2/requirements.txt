@@ -1,0 +1,6 @@
+# Lista de dependências do projeto.
+datasets
+tiktoken
+python-dotenv
+groq
+chromadb
