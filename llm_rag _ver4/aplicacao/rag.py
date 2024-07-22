@@ -13,7 +13,7 @@ import warnings
 warnings.filterwarnings("ignore", message="`resume_download` is deprecated and will be removed in version 1.0.0")
 
 # Caminho para o arquivo PDF
-PDF_PATH = 'pdf_handling/entrevistas_e_perguntas.pdf'
+PDF_PATH = 'pdf_handling/entrevista_de_TI.pdf'
 
 # Caminho para salvar os dados do ChromaDB
 CHROMA_DATA_PATH = "chroma_data/"
@@ -23,12 +23,6 @@ EMBED_MODEL = "all-MiniLM-L6-v2"
 
 # Nome da coleção
 COLLECTION_NAME = "ruth_docs"
-
-def dict_to_string(input_dict):
-    # Convert the dictionary into a string representation
-    # This uses a list comprehension to create a list of "key: value" strings
-    # and then joins them with a comma and a space.
-    return ', '.join([f"{key}: {value}" for key, value in input_dict.items()])
 
 # Função para extrair texto de um PDF e retornar uma lista de objetos Document
 def extract_text_from_pdf(file_path):
@@ -40,7 +34,6 @@ def extract_text_from_pdf(file_path):
             for i in range(paginas):
                 page = pdf.pages[i]
                 text += page.extract_text()
-            # print(type(text))
             text_splitter = RecursiveCharacterTextSplitter(
                 chunk_size=500,
                 chunk_overlap=50,
@@ -48,12 +41,7 @@ def extract_text_from_pdf(file_path):
                 separators=['\n','']
             )
             ftext = text.replace('\n', ' ')
-            # print(ftext)
             documents = text_splitter.create_documents([ftext])
-            # splitted_documents = text_splitter.split_documents(documents)
-            # print(documents)
-            # print("----------------------  vs  ---------------------")
-            # print(splitted_documents)
             return documents
         
     except FileNotFoundError:
@@ -86,30 +74,38 @@ vectordb = criar_vectordb().save_db(documents, model, CHROMA_DATA_PATH)
 os.environ["GROQ_API_KEY"] = "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"
 
 ruth_prompt_template = """
-                            Você é um assistente virtual de RH utilizando documentos para embasar sua resposta sempre em fatos,
-                            Use as informações presentes no documento para responder a resposta do candidato,
+                            Você é um assistente virtual de RH utilizando documentos para embasar suas respostas e perguntas sempre em fatos,
+                            Use as informações presentes no documento para responder e fazer perguntas ao usuário candidato,
                             sua resposta deve ser o mais semelhante possível com a descrição presente nos documentos
                             
                             contexto: {context}
                             pergunta: {question}
                             
-                            Apenas retorne as respostas úteis em ajudar na avaliação e seleção de candidatos e nada mais, usando uma linguagem gentil e empática.
-                            Sempre responda em português, uma descrição em texto contínua, além disso adicione
-                            um ou mais emojis às vezes para demonstrar empatia e emoção.
+                            Apenas retorne as respostas úteis em ajudar na avaliação e seleção de candidatos relacionados ao documento e nada mais, com até uma linha de resposta, 
+                            usando uma linguagem gentil e empática. Sempre responda em português, uma descrição em texto contínua, além disso adicione
+                            um ou mais emojis às vezes para demonstrar empatia e emoção. 
+                        
                             
                             
                             """
 
 prompt = PromptTemplate(template=ruth_prompt_template, input_variables=['context', 'question'])
-
+                            # Se o usuário responder de forma estranha ou não relacionada, você
+                            # pode perguntar novamente ou pedir para ele reformular a pergunta. Além disso, se o usuário mencionar uma vaga que o nome não está 
+                            # nos documentos, corrija o candidato mencionando a vaga correta. Além disso, se o usuário só digitar sim ou não, pergunte o motivo 
+                            # e peça para ele explicar melhor. Pergunte ao candidato sobre suas experiências, habilidades e o que ele faria em determinadas situações
+                            # e sobre o que ele ja passou em suas experiências.
 '''
 llm = CTransformers(
         model = "model/llama-2-7b-chat.ggmlv3.q8_0.bin",
         model_type = "llama",
-        config={'max_new_tokens': 512, 
-                'temperature': 0.03,
-                'context_length': 1000,
-                'repetition_penalty': 1.15}
+        config={'max_new_tokens': 400, 
+                'temperature': 0.2,
+                'context_length': 10000,
+                'repetition_penalty': 1.5,
+                'top_p': 0.9,
+                'top_k': 40
+                }
         )
 '''
 
@@ -132,7 +128,7 @@ qa = create_retrieval_chain(retriever, combine_docs_chain)
 
 def mainRAG(question):
     # Exemplo de uso
-    context = "Feedback negativo"
+    context = "Entrevista de emprego"
     response = qa.invoke({"context": context, "question": question}).get("answer")
     return response
 

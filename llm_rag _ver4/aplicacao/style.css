@@ -5,7 +5,8 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-color: #f4f4f4;
+    background-image: url('imagens/ambiente.png');
+    background-size: cover;
 }
 
 .chat-container {
