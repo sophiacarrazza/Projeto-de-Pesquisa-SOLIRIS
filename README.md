@@ -4,4 +4,4 @@ de emprego determinada pela empresa que usufrui do produto, realizando perguntas
 O avanço principal deste estudo foi o desenvolvimento de um RAG (Retrieval-Augmented Generation) que pesquisa seu conhecimento nos documentos que contêm as informações da vaga necessária para fazer as perguntas e responder ao candidato. A imagem
 a seguir representa o fluxo do RAG em questão
 <br/>
-![fluxo rag](URL_da_Imagem)
+![fluxo rag](https://github.com/user-attachments/assets/5a348806-5d28-4c7e-8503-02a0af5a9a2c)
