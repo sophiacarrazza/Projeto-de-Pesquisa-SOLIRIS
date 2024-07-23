@@ -1,5 +1,0 @@
-# Lista de dependências do projeto.
-groq
-chromadb
-pypdf2
-python-dotenv

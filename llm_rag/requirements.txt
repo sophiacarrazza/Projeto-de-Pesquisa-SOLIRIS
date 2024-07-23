@@ -1,8 +1,0 @@
-# Lista de dependências do projeto.
-
-langchain_openai
-openai
-datasets
-qdrant-client
-tiktoken
-python-dotenv

@@ -1,1 +1,0 @@
-# Script para treinar o modelo.

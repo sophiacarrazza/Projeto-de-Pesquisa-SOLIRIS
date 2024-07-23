@@ -71,7 +71,7 @@ model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2
 
 vectordb = criar_vectordb().save_db(documents, model, CHROMA_DATA_PATH)
 
-os.environ["GROQ_API_KEY"] = "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"
+os.environ["GROQ_API_KEY"] = "-"
 
 ruth_prompt_template = """
                             Você é um assistente virtual de RH utilizando documentos para embasar suas respostas e perguntas sempre em fatos,
